@@ -1,0 +1,465 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A100010100000000000001 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200010100000000000001 /* AppDelegate.swift */; };
+		A100010100000000000002 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200010100000000000002 /* CoreDataManager.swift */; };
+		A100010100000000000003 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200010100000000000003 /* UserDefaultsManager.swift */; };
+		A100010100000000000004 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200010100000000000004 /* ImageLoader.swift */; };
+		A100010100000000000005 /* NoteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200010100000000000005 /* NoteModel.swift */; };
+		A100010100000000000006 /* DashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200010100000000000006 /* DashboardViewModel.swift */; };
+		A100010100000000000007 /* NoteListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200010100000000000007 /* NoteListViewModel.swift */; };
+		A100010100000000000008 /* NoteEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200010100000000000008 /* NoteEditViewModel.swift */; };
+		A100010100000000000009 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200010100000000000009 /* SettingsViewModel.swift */; };
+		A100010100000000000010 /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200010100000000000010 /* DashboardViewController.swift */; };
+		A100010100000000000011 /* DashboardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200010100000000000011 /* DashboardCell.swift */; };
+		A100010100000000000012 /* DashboardHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200010100000000000012 /* DashboardHeaderView.swift */; };
+		A100010100000000000013 /* NoteListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200010100000000000013 /* NoteListViewController.swift */; };
+		A100010100000000000014 /* NoteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200010100000000000014 /* NoteTableViewCell.swift */; };
+		A100010100000000000015 /* NoteEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200010100000000000015 /* NoteEditViewController.swift */; };
+		A100010100000000000016 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200010100000000000016 /* SettingsViewController.swift */; };
+		A100010100000000000017 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200010100000000000017 /* MainTabBarController.swift */; };
+		A100010100000000000018 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A200010100000000000018 /* Assets.xcassets */; };
+		A100010100000000000019 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A200010100000000000019 /* LaunchScreen.storyboard */; };
+		A100010100000000000020 /* SwiftNote.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A200010100000000000020 /* SwiftNote.xcdatamodeld */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A300010100000000000001 /* SwiftNote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftNote.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A200010100000000000001 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		A200010100000000000002 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		A200010100000000000003 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
+		A200010100000000000004 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
+		A200010100000000000005 /* NoteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteModel.swift; sourceTree = "<group>"; };
+		A200010100000000000006 /* DashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModel.swift; sourceTree = "<group>"; };
+		A200010100000000000007 /* NoteListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListViewModel.swift; sourceTree = "<group>"; };
+		A200010100000000000008 /* NoteEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteEditViewModel.swift; sourceTree = "<group>"; };
+		A200010100000000000009 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		A200010100000000000010 /* DashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
+		A200010100000000000011 /* DashboardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardCell.swift; sourceTree = "<group>"; };
+		A200010100000000000012 /* DashboardHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardHeaderView.swift; sourceTree = "<group>"; };
+		A200010100000000000013 /* NoteListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListViewController.swift; sourceTree = "<group>"; };
+		A200010100000000000014 /* NoteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteTableViewCell.swift; sourceTree = "<group>"; };
+		A200010100000000000015 /* NoteEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteEditViewController.swift; sourceTree = "<group>"; };
+		A200010100000000000016 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		A200010100000000000017 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		A200010100000000000018 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A200010100000000000019 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		A200010100000000000020 /* SwiftNote.xcdatamodeld */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodeld; path = SwiftNote.xcdatamodeld; sourceTree = "<group>"; };
+		A200010100000000000021 /* SwiftNote.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SwiftNote.xcdatamodel; sourceTree = "<group>"; };
+		A200010100000000000022 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		A400010100000000000001 = {
+			isa = PBXGroup;
+			children = (
+				A400010100000000000002 /* SwiftNote */,
+				A400010100000000000003 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A400010100000000000003 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A300010100000000000001 /* SwiftNote.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A400010100000000000002 /* SwiftNote */ = {
+			isa = PBXGroup;
+			children = (
+				A400010100000000000010 /* App */,
+				A400010100000000000011 /* Services */,
+				A400010100000000000012 /* Models */,
+				A400010100000000000013 /* ViewModels */,
+				A400010100000000000014 /* Views */,
+				A200010100000000000018 /* Assets.xcassets */,
+				A200010100000000000019 /* LaunchScreen.storyboard */,
+				A200010100000000000020 /* SwiftNote.xcdatamodeld */,
+				A200010100000000000022 /* Info.plist */,
+			);
+			path = SwiftNote;
+			sourceTree = "<group>";
+		};
+		A400010100000000000010 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				A200010100000000000001 /* AppDelegate.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		A400010100000000000011 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				A200010100000000000002 /* CoreDataManager.swift */,
+				A200010100000000000003 /* UserDefaultsManager.swift */,
+				A200010100000000000004 /* ImageLoader.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		A400010100000000000012 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A200010100000000000005 /* NoteModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		A400010100000000000013 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				A200010100000000000006 /* DashboardViewModel.swift */,
+				A200010100000000000007 /* NoteListViewModel.swift */,
+				A200010100000000000008 /* NoteEditViewModel.swift */,
+				A200010100000000000009 /* SettingsViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		A400010100000000000014 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A400010100000000000015 /* Dashboard */,
+				A400010100000000000016 /* NoteList */,
+				A400010100000000000017 /* NoteEdit */,
+				A400010100000000000018 /* Settings */,
+				A200010100000000000017 /* MainTabBarController.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A400010100000000000015 /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				A200010100000000000010 /* DashboardViewController.swift */,
+				A200010100000000000011 /* DashboardCell.swift */,
+				A200010100000000000012 /* DashboardHeaderView.swift */,
+			);
+			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		A400010100000000000016 /* NoteList */ = {
+			isa = PBXGroup;
+			children = (
+				A200010100000000000013 /* NoteListViewController.swift */,
+				A200010100000000000014 /* NoteTableViewCell.swift */,
+			);
+			path = NoteList;
+			sourceTree = "<group>";
+		};
+		A400010100000000000017 /* NoteEdit */ = {
+			isa = PBXGroup;
+			children = (
+				A200010100000000000015 /* NoteEditViewController.swift */,
+			);
+			path = NoteEdit;
+			sourceTree = "<group>";
+		};
+		A400010100000000000018 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				A200010100000000000016 /* SettingsViewController.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A500010100000000000001 /* SwiftNote */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A700010100000000000003 /* Build configuration list for PBXNativeTarget "SwiftNote" */;
+			buildPhases = (
+				A600010100000000000001 /* Sources */,
+				A600010100000000000002 /* Frameworks */,
+				A600010100000000000003 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SwiftNote;
+			productName = SwiftNote;
+			productReference = A300010100000000000001 /* SwiftNote.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A600010100000000000000 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0940;
+				ORGANIZATIONNAME = Example;
+				TargetAttributes = {
+					A500010100000000000001 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = A700010100000000000002 /* Build configuration list for PBXProject "SwiftNote" */;
+			compatibilityVersion = "Xcode 9.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A400010100000000000001;
+			productRefGroup = A400010100000000000003 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A500010100000000000001 /* SwiftNote */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A600010100000000000003 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A100010100000000000018 /* Assets.xcassets in Resources */,
+				A100010100000000000019 /* LaunchScreen.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A600010100000000000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A100010100000000000001 /* AppDelegate.swift in Sources */,
+				A100010100000000000002 /* CoreDataManager.swift in Sources */,
+				A100010100000000000003 /* UserDefaultsManager.swift in Sources */,
+				A100010100000000000004 /* ImageLoader.swift in Sources */,
+				A100010100000000000005 /* NoteModel.swift in Sources */,
+				A100010100000000000006 /* DashboardViewModel.swift in Sources */,
+				A100010100000000000007 /* NoteListViewModel.swift in Sources */,
+				A100010100000000000008 /* NoteEditViewModel.swift in Sources */,
+				A100010100000000000009 /* SettingsViewModel.swift in Sources */,
+				A100010100000000000010 /* DashboardViewController.swift in Sources */,
+				A100010100000000000011 /* DashboardCell.swift in Sources */,
+				A100010100000000000012 /* DashboardHeaderView.swift in Sources */,
+				A100010100000000000013 /* NoteListViewController.swift in Sources */,
+				A100010100000000000014 /* NoteTableViewCell.swift in Sources */,
+				A100010100000000000015 /* NoteEditViewController.swift in Sources */,
+				A100010100000000000016 /* SettingsViewController.swift in Sources */,
+				A100010100000000000017 /* MainTabBarController.swift in Sources */,
+				A100010100000000000020 /* SwiftNote.xcdatamodeld in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A600010100000000000002 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin XCVersionGroup section */
+		A200010100000000000020 /* SwiftNote.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				A200010100000000000021 /* SwiftNote.xcdatamodel */,
+			);
+			currentVersion = A200010100000000000021 /* SwiftNote.xcdatamodel */;
+			path = SwiftNote.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodeld;
+		};
+/* End XCVersionGroup section */
+
+/* Begin XCBuildConfiguration section */
+		A800010100000000000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A800010100000000000002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A800010100000000000003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = SwiftNote/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.SwiftNote;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		A800010100000000000004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = SwiftNote/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.SwiftNote;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A700010100000000000002 /* Build configuration list for PBXProject "SwiftNote" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A800010100000000000001 /* Debug */,
+				A800010100000000000002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A700010100000000000003 /* Build configuration list for PBXNativeTarget "SwiftNote" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A800010100000000000003 /* Debug */,
+				A800010100000000000004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+	};
+	rootObject = A600010100000000000000 /* Project object */;
+}
