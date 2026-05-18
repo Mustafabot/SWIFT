@@ -34,9 +34,9 @@ class SettingsViewModel {
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             let newValue = !UserDefaultsManager.shared.darkModeEnabled
             DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
+                guard let strongSelf = self else { return }
                 UserDefaultsManager.shared.darkModeEnabled = newValue
-                self.onSettingsChanged?()
+                strongSelf.onSettingsChanged?()
             }
         }
     }
@@ -45,9 +45,9 @@ class SettingsViewModel {
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             let clampedSize = min(max(size, 12.0), 24.0)
             DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
+                guard let strongSelf = self else { return }
                 UserDefaultsManager.shared.fontSize = clampedSize
-                self.onSettingsChanged?()
+                strongSelf.onSettingsChanged?()
             }
         }
     }
@@ -55,9 +55,9 @@ class SettingsViewModel {
     func setThemeColorIndex(_ index: Int) {
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
+                guard let strongSelf = self else { return }
                 UserDefaultsManager.shared.themeColorIndex = index
-                self.onSettingsChanged?()
+                strongSelf.onSettingsChanged?()
             }
         }
     }
@@ -71,9 +71,9 @@ class SettingsViewModel {
                 category = "General"
             }
             DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
+                guard let strongSelf = self else { return }
                 UserDefaultsManager.shared.defaultCategory = category
-                self.onSettingsChanged?()
+                strongSelf.onSettingsChanged?()
             }
         }
     }
@@ -82,8 +82,8 @@ class SettingsViewModel {
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             ImageLoader.shared.clearCache()
             DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                self.onSettingsChanged?()
+                guard let strongSelf = self else { return }
+                strongSelf.onSettingsChanged?()
             }
         }
     }

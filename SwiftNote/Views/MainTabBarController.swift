@@ -22,7 +22,7 @@ class MainTabBarController: UITabBarController {
         let noteEditVC = NoteEditViewController()
         noteEditVC.title = "New"
         let noteEditNav = UINavigationController(rootViewController: noteEditVC)
-        noteEditNav.tabBarItem = UITabBarItem(tabBarSystemItem: .compose, tag: 2)
+        noteEditNav.tabBarItem = UITabBarItem(title: "New", image: nil, tag: 2)
 
         let settingsVC = SettingsViewController()
         settingsVC.title = "Settings"
