@@ -13,7 +13,7 @@ class ImageLoader {
 
     func loadImage(from data: Data?, completion: @escaping (UIImage?) -> Void) {
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            guard let self = self else {
+            guard let strongSelf = self else {
                 DispatchQueue.main.async { completion(nil) }
                 return
             }
@@ -22,7 +22,7 @@ class ImageLoader {
                 return
             }
             let key = String(data.hashValue) as NSString
-            if let cachedImage = self.cache.object(forKey: key) {
+            if let cachedImage = strongSelf.cache.object(forKey: key) {
                 DispatchQueue.main.async { completion(cachedImage) }
                 return
             }
@@ -30,7 +30,7 @@ class ImageLoader {
             if let image = image {
                 let imageData = UIImageJPEGRepresentation(image, 1.0)
                 let cost = imageData?.count ?? 0
-                self.cache.setObject(image, forKey: key, cost: cost)
+                strongSelf.cache.setObject(image, forKey: key, cost: cost)
             }
             DispatchQueue.main.async { completion(image) }
         }

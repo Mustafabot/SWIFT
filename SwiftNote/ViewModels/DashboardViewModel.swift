@@ -11,7 +11,7 @@ class DashboardViewModel {
 
     func loadDashboardData() {
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            guard let self = self else { return }
+            guard let strongSelf = self else { return }
             let sortDescriptor = NSSortDescriptor(key: "updateDate", ascending: false)
             let allObjects = CoreDataManager.shared.fetchNotes(sortDescriptors: [sortDescriptor])
             let allNotes = allObjects.map { NoteModel.fromManagedObject($0) }
@@ -31,11 +31,11 @@ class DashboardViewModel {
             }
 
             DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                self.recentNotes = recent
-                self.totalNoteCount = allNotes.count
-                self.categoryCounts = counts
-                self.onDataLoaded?()
+                guard let innerSelf = self else { return }
+                innerSelf.recentNotes = recent
+                innerSelf.totalNoteCount = allNotes.count
+                innerSelf.categoryCounts = counts
+                innerSelf.onDataLoaded?()
             }
         }
     }

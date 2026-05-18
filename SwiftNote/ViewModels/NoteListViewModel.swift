@@ -12,15 +12,15 @@ class NoteListViewModel {
 
     func loadNotes() {
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            guard let self = self else { return }
+            guard let strongSelf = self else { return }
             let sortDescriptor = NSSortDescriptor(key: "updateDate", ascending: false)
             let objects = CoreDataManager.shared.fetchNotes(sortDescriptors: [sortDescriptor])
             let notes = objects.map { NoteModel.fromManagedObject($0) }
 
             DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                self.allNotes = notes
-                self.filterNotes()
+                guard let innerSelf = self else { return }
+                innerSelf.allNotes = notes
+                innerSelf.filterNotes()
             }
         }
     }
@@ -56,8 +56,8 @@ class NoteListViewModel {
                 DispatchQueue.global(qos: .userInitiated).async { [weak self] in
                     CoreDataManager.shared.deleteNote(note: object)
                     DispatchQueue.main.async { [weak self] in
-                        guard let self = self else { return }
-                        self.loadNotes()
+                        guard let innerSelf = self else { return }
+                        innerSelf.loadNotes()
                     }
                 }
             }

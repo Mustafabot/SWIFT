@@ -48,9 +48,9 @@ class NoteEditViewModel {
             DispatchQueue.global(qos: .userInitiated).async { [weak self] in
                 CoreDataManager.shared.createNote(title: title, content: content, category: category, imageData: imageData)
                 DispatchQueue.main.async { [weak self] in
-                    guard let self = self else { return }
-                    self.isNew = false
-                    self.onNoteSaved?()
+                    guard let strongSelf = self else { return }
+                    strongSelf.isNew = false
+                    strongSelf.onNoteSaved?()
                 }
             }
             return true
@@ -65,13 +65,13 @@ class NoteEditViewModel {
                     DispatchQueue.global(qos: .userInitiated).async { [weak self] in
                         CoreDataManager.shared.updateNote(note: object, title: title, content: content, category: category, imageData: imageData)
                         DispatchQueue.main.async { [weak self] in
-                            guard let self = self else { return }
-                            self.note?.title = title
-                            self.note?.content = content
-                            self.note?.category = category
-                            self.note?.updateDate = Date()
-                            self.note?.image = image
-                            self.onNoteSaved?()
+                            guard let strongSelf = self else { return }
+                            strongSelf.note?.title = title
+                            strongSelf.note?.content = content
+                            strongSelf.note?.category = category
+                            strongSelf.note?.updateDate = Date()
+                            strongSelf.note?.image = image
+                            strongSelf.onNoteSaved?()
                         }
                     }
                     return true
@@ -95,9 +95,9 @@ class NoteEditViewModel {
                 DispatchQueue.global(qos: .userInitiated).async { [weak self] in
                     CoreDataManager.shared.deleteNote(note: object)
                     DispatchQueue.main.async { [weak self] in
-                        guard let self = self else { return }
-                        self.note = nil
-                        self.onNoteDeleted?()
+                        guard let strongSelf = self else { return }
+                        strongSelf.note = nil
+                        strongSelf.onNoteDeleted?()
                     }
                 }
                 return true
