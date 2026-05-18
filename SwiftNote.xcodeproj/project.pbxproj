@@ -281,6 +281,7 @@
 				A200010100000000000021 /* SwiftNote.xcdatamodel */,
 			);
 			currentVersion = A200010100000000000021 /* SwiftNote.xcdatamodel */;
+			lastKnownFileType = wrapper.xcdatamodeld;
 			path = SwiftNote.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodeld;
