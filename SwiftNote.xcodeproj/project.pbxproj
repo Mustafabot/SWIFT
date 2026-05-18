@@ -25,7 +25,6 @@
 		A100010100000000000016 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200010100000000000016 /* SettingsViewController.swift */; };
 		A100010100000000000017 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200010100000000000017 /* MainTabBarController.swift */; };
 		A100010100000000000018 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A200010100000000000018 /* Assets.xcassets */; };
-		A100010100000000000019 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A200010100000000000019 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,7 +47,6 @@
 		A200010100000000000016 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		A200010100000000000017 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		A200010100000000000018 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		A200010100000000000019 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A200010100000000000021 /* SwiftNote.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SwiftNote.xcdatamodel; sourceTree = "<group>"; };
 		A200010100000000000022 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -79,7 +77,6 @@
 				A400010100000000000013 /* ViewModels */,
 				A400010100000000000014 /* Views */,
 				A200010100000000000018 /* Assets.xcassets */,
-				A200010100000000000019 /* LaunchScreen.storyboard */,
 				A200010100000000000020 /* SwiftNote.xcdatamodeld */,
 				A200010100000000000022 /* Info.plist */,
 			);
@@ -229,7 +226,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A100010100000000000018 /* Assets.xcassets in Resources */,
-				A100010100000000000019 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
