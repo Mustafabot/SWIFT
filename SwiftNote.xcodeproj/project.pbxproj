@@ -26,7 +26,6 @@
 		A100010100000000000017 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200010100000000000017 /* MainTabBarController.swift */; };
 		A100010100000000000018 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A200010100000000000018 /* Assets.xcassets */; };
 		A100010100000000000019 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A200010100000000000019 /* LaunchScreen.storyboard */; };
-		A100010100000000000020 /* SwiftNote.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A200010100000000000020 /* SwiftNote.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -258,7 +257,6 @@
 				A100010100000000000015 /* NoteEditViewController.swift in Sources */,
 				A100010100000000000016 /* SettingsViewController.swift in Sources */,
 				A100010100000000000017 /* MainTabBarController.swift in Sources */,
-				A100010100000000000020 /* SwiftNote.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,6 +279,7 @@
 				A200010100000000000021 /* SwiftNote.xcdatamodel */,
 			);
 			currentVersion = A200010100000000000021 /* SwiftNote.xcdatamodel */;
+			lastKnownFileType = wrapper.xcdatamodeld;
 			path = SwiftNote.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodeld;
