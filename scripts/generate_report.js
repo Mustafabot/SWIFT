@@ -64,4 +64,93 @@ function emptyPara() {
   return new Paragraph({ spacing: { after: 0 }, children: [] });
 }
 
-console.log("脚本骨架就绪，常量和工具函数已定义");
+function buildCover() {
+  const children = [];
+  // 空行推到中部
+  for (let i = 0; i < 6; i++) children.push(emptyPara());
+
+  // 报告标题
+  children.push(new Paragraph({
+    alignment: AlignmentType.CENTER,
+    spacing: { after: 600 },
+    children: [new TextRun({ text: "《移动应用开发技术》", font: FONT_HEADING, size: 44, bold: true })],
+  }));
+  children.push(new Paragraph({
+    alignment: AlignmentType.CENTER,
+    spacing: { after: 600 },
+    children: [new TextRun({ text: "课程报告", font: FONT_HEADING, size: 44, bold: true })],
+  }));
+
+  // 空行
+  for (let i = 0; i < 4; i++) children.push(emptyPara());
+
+  // 项目信息
+  const infoLines = [
+    "项 目 名 称：SwiftNote（Swift 个人笔记应用）",
+    "班       级：__________________",
+    "学       号：__________________",
+    "项目设计人：__________________",
+  ];
+  infoLines.forEach(text => {
+    children.push(new Paragraph({
+      alignment: AlignmentType.CENTER,
+      spacing: { after: 200, line: 400 },
+      children: [new TextRun({ text, font: FONT_BODY, size: SIZE_BODY })],
+    }));
+  });
+
+  // 空行
+  for (let i = 0; i < 6; i++) children.push(emptyPara());
+
+  // 学校信息
+  children.push(new Paragraph({
+    alignment: AlignmentType.CENTER,
+    spacing: { after: 120 },
+    children: [new TextRun({ text: "集美大学 计算机工程学院", font: FONT_BODY, size: SIZE_BODY })],
+  }));
+  children.push(new Paragraph({
+    alignment: AlignmentType.CENTER,
+    spacing: { after: 120 },
+    children: [new TextRun({ text: "______年______月", font: FONT_BODY, size: SIZE_BODY })],
+  }));
+
+  return children;
+}
+
+// ---- 组装文档 ----
+const doc = new Document({
+  styles: {
+    default: {
+      document: { run: { font: FONT_BODY, size: SIZE_BODY } },
+    },
+    paragraphStyles: [
+      {
+        id: "Heading1", name: "Heading 1", basedOn: "Normal", next: "Normal", quickFormat: true,
+        run: { size: SIZE_H1, bold: true, font: FONT_HEADING },
+        paragraph: { spacing: { before: 360, after: 240 }, outlineLevel: 0 },
+      },
+      {
+        id: "Heading2", name: "Heading 2", basedOn: "Normal", next: "Normal", quickFormat: true,
+        run: { size: SIZE_H2, bold: true, font: FONT_HEADING },
+        paragraph: { spacing: { before: 240, after: 180 }, outlineLevel: 1 },
+      },
+    ],
+  },
+  sections: [
+    {
+      properties: {
+        page: {
+          size: { width: PAGE_WIDTH, height: PAGE_HEIGHT },
+          margin: { top: MARGIN_TOP, bottom: MARGIN_BOTTOM, left: MARGIN_LEFT, right: MARGIN_RIGHT },
+        },
+      },
+      children: [...buildCover()],
+    },
+  ],
+});
+
+const outputPath = path.join(__dirname, "..", "《移动应用开发技术》课程期末报告-SwiftNote.docx");
+Packer.toBuffer(doc).then(buffer => {
+  fs.writeFileSync(outputPath, buffer);
+  console.log("文档已生成:", outputPath);
+});
