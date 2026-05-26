@@ -477,6 +477,36 @@ function buildChapter4() {
   ];
 }
 
+function buildChapter5() {
+  return [
+    heading1("五、项目说明"),
+
+    heading2("5.1 Core Data 程序化模型定义"),
+    bodyPara("传统 iOS 项目通常使用 Xcode 的 .xcdatamodeld 可视化编辑器来定义 Core Data 数据模型。这种方式虽然直观，但模型文件是以 XML 格式存储的，当团队协作时容易产生合并冲突，且不同版本 Xcode 打开后可能自动修改文件格式。SwiftNote 选择了程序化方式定义数据模型，在 CoreDataManager.createManagedObjectModel() 方法中通过 NSAttributeDescription 和 NSEntityDescription 的 API 完全以代码描述实体和属性。"),
+    bodyPara("程序化方式的主要优势包括：模型定义即为 Swift 代码，版本管理友好，合并冲突时可读性强；模型在运行时动态构建，不依赖 Xcode 特定版本，确定性更高；便于添加注释和进行条件编译，灵活性更好。当然，这种方式也牺牲了可视化编辑的便利性，适合模型结构相对稳定的项目。"),
+
+    heading2("5.2 图片存储与处理策略"),
+    bodyPara("移动设备拍摄的照片文件通常较大（数 MB 级别），直接存入 Core Data 数据库会导致 SQLite 文件急剧膨胀、读写性能下降。SwiftNote 采用多层策略优化图片存储。"),
+    bodyPara("首先，imageData 属性设置了 allowsExternalBinaryDataStorage = true，Core Data 会将较大的二进制数据存储在 SQLite 数据库外部的独立文件中，数据库内仅保留引用，由此兼顾了查询性能和大对象存储。其次，在保存前通过 resizeImage 将图片尺寸限制在 1024×1024 像素以内，再通过 UIImageJPEGRepresentation 以 0.5 的压缩质量转换为 JPEG 格式，显著降低了存储空间占用。最后，运行时通过 ImageLoader 的 NSCache 内存缓存避免反复从磁盘解码图片，提升了滚动浏览的流畅度。"),
+
+    heading2("5.3 NSManagedObject KVC 访问模式"),
+    bodyPara("许多 Core Data 项目会通过 Xcode 的代码生成功能为每个 Entity 创建 NSManagedObject 子类，以强类型的属性访问方式操作数据。SwiftNote 选择了不生成子类，直接使用 NSManagedObject 的 KVC（Key-Value Coding）方法 value(forKey:) 和 setValue(_:forKey:) 进行属性读写。"),
+    bodyPara("这一选择的原因在于：避免了 Xcode 自动生成文件与实际模型定义的不一致问题；所有模型字段的定义集中在 createManagedObjectModel() 一次性维护；通过 NoteModel.fromManagedObject() 统一将 KVC 读取的值映射为 Swift 强类型的 NoteModel 结构体，从而在 UI 层享有了类型安全。这种模式的代价是属性名以字符串形式书写，编译器无法校验拼写错误，需要开发者细心维护键名的一致性。"),
+
+    heading2("5.4 笔记定位策略"),
+    bodyPara("在编辑和删除笔记时，需要定位到 Core Data 中的原始托管对象。理想方案是使用 NSManagedObjectID，但该对象在跨上下文（viewContext 与后台 context）传递时可能失效。SwiftNote 采用了一种折中方案：使用 title + createDate 的组合谓词（NSPredicate）在后台上下文中重新查询对应的托管对象。"),
+    bodyPara("这一策略在大多数场景下工作良好，但存在一个理论上的边界情况：如果同一毫秒内创建了两条标题完全相同的笔记，谓词将无法区分它们。在实际使用中，用户在单次操作中创建两篇标题和创建时间均相同的笔记几乎不可能发生，但作为改进方向，可以考虑在 Note 实体中新增一个 UUID 属性作为稳定的唯一标识符。"),
+
+    heading2("5.5 iOS 11 深色模式兼容方案"),
+    bodyPara("iOS 13 引入了系统级别的深色模式支持，通过 UIUserInterfaceStyle 和动态颜色即可实现自适应。但 SwiftNote 的最低部署目标为 iOS 11.0，无法使用这些 API。项目中实现了一套独立于系统的深色模式方案：在 UserDefaults 中存储用户的模式偏好（darkModeEnabled），在 SettingsViewModel 中提供切换逻辑，在每个页面的 applyDarkMode() 或类似方法中手动设置背景色、文字色和导航栏样式。"),
+    bodyPara("虽然这种方式需要更多的手动管理代码，但它实现了对 iOS 11-12 设备的完美兼容，且不受系统级深色模式自动切换的影响，用户体验更加可控。"),
+
+    heading2("5.6 无第三方依赖的设计哲学"),
+    bodyPara("SwiftNote 从设计之初就确定了不引入任何第三方依赖的原则。做出这一决定并非因为排斥开源社区的高质量代码，而是基于以下几点考量："),
+    bodyPara("第一，学习价值最大化——课程项目的核心目的是学习和实践 iOS 开发的基础知识和核心框架，使用原生 API 从零构建功能，能够获得最深刻的理解。第二，长期可维护性——第三方库可能因维护者放弃而停滞，或因版本不兼容而成为升级障碍。纯原生代码在多年后仍然可以在最新的 Xcode 中编译和运行。第三，项目简洁性——不使用 CocoaPods/Carthage/SPM 等依赖管理工具，clone 项目后即可编译，降低了上手门槛。当然，这种选择也限制了开发效率——在商业项目中，合理使用成熟的第三方库可以有效缩短开发周期。"),
+  ];
+}
+
 // ---- 组装文档 ----
 const doc = new Document({
   styles: {
@@ -536,6 +566,10 @@ const doc = new Document({
     {
       properties: defaultPageConfig,
       children: [...buildChapter4()],
+    },
+    {
+      properties: defaultPageConfig,
+      children: [...buildChapter5()],
     },
   ],
 });
