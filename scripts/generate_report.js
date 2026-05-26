@@ -507,6 +507,137 @@ function buildChapter5() {
   ];
 }
 
+function buildCompletionTable() {
+  const headers = ["需求编号", "需求描述", "状态", "考核知识点"];
+  const data = [
+    ["FR-01", "笔记创建（标题、正文、分类、图片）", "已完成", "UITextField、UITextView、Core Data 写入"],
+    ["FR-02", "笔记编辑与删除", "已完成", "页面数据传递、Core Data 更新/删除"],
+    ["FR-03", "笔记列表浏览与搜索筛选", "已完成", "UITableView、UISearchBar、NSPredicate"],
+    ["FR-04", "仪表盘概览与统计", "已完成", "UICollectionView、自定义 Cell"],
+    ["FR-05", "个性化设置（主题/字号/分类）", "已完成", "UserDefaults、UISlider、UISegmentedControl"],
+    ["FR-06", "缓存管理", "已完成", "NSCache、UIAlertController"],
+  ];
+
+  const colWidths = [1200, 2800, 1000, 3306];
+
+  const rows = [headers, ...data].map((row, ri) => {
+    const cells = row.map((text, ci) => {
+      const isHeader = ri === 0;
+      return new TableCell({
+        borders: cellBorders,
+        width: { size: colWidths[ci], type: WidthType.DXA },
+        shading: isHeader ? { fill: "D5E8F0", type: ShadingType.CLEAR } : undefined,
+        margins: { top: 40, bottom: 40, left: 80, right: 80 },
+        children: [new Paragraph({
+          spacing: { after: 0, line: 280 },
+          children: [new TextRun({ text, font: FONT_BODY, size: SIZE_SMALL, bold: isHeader })],
+        })],
+      });
+    });
+    return new TableRow({ children: cells });
+  });
+
+  return new Table({
+    width: { size: CONTENT_WIDTH, type: WidthType.DXA },
+    columnWidths: colWidths,
+    rows,
+  });
+}
+
+function buildChapter6() {
+  return [
+    heading1("六、总结"),
+
+    heading2("6.1 项目完成情况"),
+    bodyPara("经过开发实现，SwiftNote 圆满完成了课程考核要求中的所有功能需求和非功能需求。以下是各功能需求的完成情况对照表："),
+    buildCompletionTable(),
+    bodyPara("项目代码规模统计如下：App 入口层 1 个文件 41 行，数据模型层 1 个文件 37 行，服务层 3 个文件 233 行，视图模型层 4 个文件 325 行，视图层 8 个文件 493 行。合计 17 个 Swift 源文件，总代码量约 1,129 行，在紧凑的代码规模内实现了完整的笔记应用功能。"),
+
+    heading2("6.2 技术亮点"),
+    bodyPara("回顾整个开发过程，本项目在以下几个方面体现了较好的技术实践："),
+    bodyParaNoIndent("（1）纯代码布局 + Auto Layout 的工业化实践：不使用任何 Storyboard（启动屏除外），所有界面元素通过代码创建并使用 NSLayoutAnchor API 进行约束布局。这种方式使界面变更可追溯、可审查，避免了 Storyboard XML 在团队协作时的合并问题。"),
+    bodyParaNoIndent("（2）Core Data 程序化模型 + 后台线程写入的线程安全方案：使用 NSAttributeDescription 以代码定义数据模型，配合 newBackgroundContext 将写操作隔离到后台线程。所有 UI 数据通过 NoteModel 值类型在主线程传递，避免了托管对象跨线程访问的风险。"),
+    bodyParaNoIndent("（3）MVVM 闭包回调的低耦合设计：ViewModel 通过可选闭包（onDataLoaded、onNotesUpdated 等）向 ViewController 通信，ViewController 在订阅闭包时使用 [weak self] 避免循环引用。这种模式无需使用响应式框架即可实现 View 与 ViewModel 的松耦合。"),
+    bodyParaNoIndent("（4）图片处理全链路：从 UIImagePickerController 获取原始图像，经过 resizeImage 尺寸限制，JPEG 压缩，Core Data 外部二进制存储，NSCache 内存缓存，到 UIImageView 展示，形成了一条完整的图片处理管线，兼顾了存储效率和加载性能。"),
+    bodyParaNoIndent("（5）iOS 11 兼容的深色模式实现：在系统级深色模式 API（iOS 13+）出现之前，手动实现了一套完整的深色模式方案，通过 UserDefaults 持久化偏好并在各页面独立适配，实现了跨版本一致的暗色体验。"),
+
+    heading2("6.3 项目不足与改进方向"),
+    bodyPara("尽管项目已完成所有既定功能，但在以下方面仍存在不足和改进空间："),
+    bodyParaNoIndent("（1）无云同步功能：当前笔记数据完全存储在本地设备，无法在多个设备间同步。改进方向：引入 CloudKit 或 Core Data with CloudKit，利用 Apple 的云基础设施实现自动同步。"),
+    bodyParaNoIndent("（2）无 iPad 适配：应用仅支持 iPhone 设备，在大屏幕 iPad 上界面会被拉伸。改进方向：使用 Size Class 和 UISplitViewController 对 iPad 进行适配。"),
+    bodyParaNoIndent("（3）仅支持竖屏方向：部分场景下（如浏览图片附件）横屏能提供更好的体验。改进方向：为编辑页等关键页面添加横屏布局，使用不同的 Auto Layout 约束配置适配旋转。"),
+    bodyParaNoIndent("（4）无自动化测试：项目中没有任何单元测试或 UI 测试代码。改进方向：使用 XCTest 框架为四个 ViewModel 编写单元测试，使用 XCUITest 编写关键用户流程的 UI 测试。"),
+    bodyParaNoIndent("（5）谓词定位笔记的潜在风险：使用 title + createDate 组合定位笔记，在同名同时间戳的极端情况下可能误操作。改进方向：在 Note 实体中新增 UUID 属性，使用 NSManagedObjectID.uriRepresentation() 作为稳定的唯一标识。"),
+    bodyParaNoIndent("（6）无数据导出功能：用户无法将笔记导出为通用格式以备份或迁移。改进方向：添加数据导出功能，支持将笔记导出为 JSON 文件或生成 PDF 报告。"),
+
+    heading2("6.4 开发过程心得体会"),
+    bodyPara("从项目选题到最终实现，SwiftNote 的开发过程是一次完整的移动应用开发实践体验。以下记录了过程中最具启发性的几个方面。"),
+    bodyPara("关于纯代码布局。在项目初期，曾考虑使用 Storyboard 快速搭建界面原型，但最终选择了纯代码方案。实践后发现，纯代码布局虽然在初期编写效率上略低于可视化的拖拽操作，但带来了更高的可控性和可维护性。尤其在处理不同屏幕尺寸的适配和条件性布局修改时，代码的显式声明比 Storyboard 中的隐式约束关系更易理解和调试。通过 NSLayoutAnchor API，约束代码的表达力足够强且语法清晰，没有想象中那么繁琐。"),
+    bodyPara("关于 Core Data 线程安全。开发过程中在这方面踩过一个坑：最初在 viewContext 上直接执行写操作，当数据量增大时可以明显感觉到 UI 的卡顿。查阅文档后了解到，viewContext 的所有操作都在主队列上执行，写操作会阻塞 UI。解决方式是将写操作移到后台上下文（newBackgroundContext）中执行，完成后回到主线程更新 UI。这个经验让线程安全的概念从抽象的教科书知识变成了可感知的实践问题。"),
+    bodyPara("关于 MVVM 架构的落地。将 MVVM 的理论模型转化为实际代码的过程并非一帆风顺。第一个版本的 ViewModel 过于轻量，仅仅是对 Service 调用的简单代理；第二个版本又过于重量，将 UI 创建逻辑也放了进去。经过迭代调整，最终找到了合适的边界：ViewModel 持有业务数据和逻辑，通过闭包回调向 View 通知数据变更；View（ViewController）负责 UI 的创建、布局和用户交互的响应。这个边界划分使得 ViewModel 可以在不依赖 UI 的情况下被独立测试。"),
+    bodyPara("关于图片处理。图片功能在最初的设计中被低估了复杂性。从相册选择或相机拍摄的照片通常在 3000-4000 像素宽度、文件大小 2-5MB，如果直接存入 Core Data，不仅占用大量存储空间，读取时也会导致明显的界面卡顿。引入 resize（尺寸限制）+ compress（JPEG 压缩）+ external storage（Core Data 外部文件存储）+ cache（NSCache 内存缓存）的四层策略后，图片相关的性能问题才得到彻底解决。"),
+    bodyPara("关于版本兼容性。在实现深色模式时，发现 Xcode 文档中的 UIUserInterfaceStyle API 标有 iOS 12 以上可用。如果使用这个 API，iOS 11 设备上将无法正常工作。最终选择手动实现深色模式方案，虽然代码量多了几十行，但确保了从 iOS 11 到最新系统的一致体验。这次经历加深了对 Apple 平台 API 兼容性管理的理解。"),
+
+    heading2("6.5 课程学习总结"),
+    bodyPara("通过《移动应用开发技术》课程的学习和 SwiftNote 项目的开发实践，在以下方面取得了显著的提升。"),
+    bodyPara("知识体系方面，从对 iOS 开发的零散认知（知道有 UIKit、Core Data 这些框架但不知道它们之间如何协作），到能够独立设计并实现一个完整的多页面应用，建立了从 UI 层到数据层的全链路理解。工程能力方面，通过实际的代码组织、版本管理和问题排查过程，体会到了软件工程素养在实践中的重要性——好的代码结构和清晰的职责划分比写出能运行的代码更为关键。"),
+    bodyPara("本项目的完成不仅是课程考核的一项成果，更是从学习者到实践者角色转变的一个里程碑。通过将一个想法从概念变为实际可运行的应用，验证了自己掌握了移动应用开发的核心能力，也为后续深入学习 iOS 开发乃至其他平台的移动开发奠定了坚实的基础。"),
+  ];
+}
+
+function buildAppendix() {
+  const headers = ["文件路径", "行数", "职责说明"];
+  const data = [
+    ["App/AppDelegate.swift", "41", "应用入口，窗口创建，全局主题配置"],
+    ["Models/NoteModel.swift", "37", "笔记值类型结构体，托管对象映射"],
+    ["Services/CoreDataManager.swift", "141", "Core Data 栈管理，程序化模型定义，CRUD 操作"],
+    ["Services/ImageLoader.swift", "43", "图片异步解码与 NSCache 内存缓存"],
+    ["Services/UserDefaultsManager.swift", "49", "用户偏好存取，didSet 自动持久化"],
+    ["ViewModels/DashboardViewModel.swift", "49", "仪表盘数据加载与分类统计"],
+    ["ViewModels/NoteListViewModel.swift", "74", "笔记列表加载与双条件过滤链"],
+    ["ViewModels/NoteEditViewModel.swift", "111", "笔记保存/删除逻辑，图片压缩管线"],
+    ["ViewModels/SettingsViewModel.swift", "91", "设置读写与深色模式切换"],
+    ["Views/MainTabBarController.swift", "56", "四 Tab 初始化与全局主题应用"],
+    ["Views/Dashboard/DashboardViewController.swift", "131", "仪表盘页面，卡片网格与快捷创建"],
+    ["Views/Dashboard/DashboardCell.swift", "116", "笔记卡片 Cell，含缩略图和分类标签"],
+    ["Views/Dashboard/DashboardHeaderView.swift", "53", "仪表盘分区头视图"],
+    ["Views/NoteList/NoteListViewController.swift", "136", "笔记列表，搜索栏与分类筛选"],
+    ["Views/NoteList/NoteTableViewCell.swift", "115", "笔记行 Cell，横向布局"],
+    ["Views/NoteEdit/NoteEditViewController.swift", "356", "笔记编辑页面，富表单与键盘处理"],
+    ["Views/Settings/SettingsViewController.swift", "345", "设置页面，5 种自定义 Cell"],
+  ];
+
+  const colWidths = [3500, 800, 4006];
+
+  const rows = [headers, ...data].map((row, ri) => {
+    const cells = row.map((text, ci) => {
+      const isHeader = ri === 0;
+      const useCodeFont = !isHeader && ci === 0;
+      return new TableCell({
+        borders: cellBorders,
+        width: { size: colWidths[ci], type: WidthType.DXA },
+        shading: isHeader ? { fill: "D5E8F0", type: ShadingType.CLEAR } : undefined,
+        margins: { top: 40, bottom: 40, left: 80, right: 80 },
+        children: [new Paragraph({
+          spacing: { after: 0, line: 280 },
+          children: [new TextRun({ text, font: useCodeFont ? FONT_CODE : FONT_BODY, size: SIZE_SMALL, bold: isHeader })],
+        })],
+      });
+    });
+    return new TableRow({ children: cells });
+  });
+
+  return [
+    heading1("附录：项目源码文件清单"),
+    bodyPara("以下列出 SwiftNote 项目包含的全部 17 个 Swift 源文件及其核心职责："),
+    new Table({
+      width: { size: CONTENT_WIDTH, type: WidthType.DXA },
+      columnWidths: colWidths,
+      rows,
+    }),
+  ];
+}
+
 // ---- 组装文档 ----
 const doc = new Document({
   styles: {
@@ -570,6 +701,10 @@ const doc = new Document({
     {
       properties: defaultPageConfig,
       children: [...buildChapter5()],
+    },
+    {
+      properties: defaultPageConfig,
+      children: [...buildChapter6(), ...buildAppendix()],
     },
   ],
 });
