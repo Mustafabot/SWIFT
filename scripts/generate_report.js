@@ -252,6 +252,77 @@ function buildMarketTable() {
   });
 }
 
+function buildTechTable() {
+  const headers = ["技术领域", "候选方案", "选择", "理由"];
+  const data = [
+    ["UI 框架", "UIKit / SwiftUI", "UIKit", "iOS 11+ 兼容，SwiftUI 当时未发布"],
+    ["布局方式", "Storyboard / 纯代码", "纯代码", "版本控制友好，合并冲突少，布局显式可控"],
+    ["数据持久化", "Core Data / Realm / SQLite", "Core Data", "苹果原生支持，无需第三方依赖"],
+    ["图片缓存", "NSCache / SDWebImage", "NSCache", "内置 API，零依赖，满足当前需求"],
+    ["网络请求", "URLSession / Alamofire", "无需", "应用完全离线运行，无网络请求"],
+  ];
+
+  const colWidths = [1500, 2000, 1500, 3306];
+
+  const rows = [headers, ...data].map((row, ri) => {
+    const cells = row.map((text, ci) => {
+      const isHeader = ri === 0;
+      return new TableCell({
+        borders: cellBorders,
+        width: { size: colWidths[ci], type: WidthType.DXA },
+        shading: isHeader ? { fill: "D5E8F0", type: ShadingType.CLEAR } : undefined,
+        margins: { top: 40, bottom: 40, left: 80, right: 80 },
+        children: [new Paragraph({
+          spacing: { after: 0, line: 280 },
+          children: [new TextRun({ text, font: FONT_BODY, size: SIZE_SMALL, bold: isHeader })],
+        })],
+      });
+    });
+    return new TableRow({ children: cells });
+  });
+
+  return new Table({
+    width: { size: CONTENT_WIDTH, type: WidthType.DXA },
+    columnWidths: colWidths,
+    rows,
+  });
+}
+
+function buildChapter2() {
+  return [
+    heading1("二、项目开发平台及技术简要说明"),
+
+    heading2("2.1 硬件与操作系统环境"),
+    bodyPara("本项目开发使用的硬件平台为 Mac 计算机，操作系统为 macOS。集成开发环境为 Xcode 9.4.1，该版本支持 Swift 4.0 编程语言，兼容 iOS 11.0 及以上系统版本。Xcode 提供了完整的 iOS 开发工具链，包括 Interface Builder 界面构建器、Core Data 模型编辑器、Instruments 性能分析工具以及 iOS 模拟器等。"),
+    bodyPara("项目最低部署目标设定为 iOS 11.0。iOS 11 引入了 Safe Area 安全区域布局指南、改进的导航栏大标题样式等新特性，同时保持着对 iPhone 5s 及以上设备的广泛兼容性。选择 iOS 11.0 作为最低版本要求，能够覆盖绝大多数活跃 iOS 设备，同时可以充分利用系统提供的现代 API。"),
+
+    heading2("2.2 开发语言：Swift 4.0"),
+    bodyPara("Swift 是 Apple 于 2014 年发布的现代化编程语言，具有类型安全、内存安全、协议导向等核心特性。Swift 4.0 版本于 2017 年发布，是 Swift 语言发展过程中的重要里程碑版本，引入了 Codable 协议、改进的字符串处理 API、更强大的 KeyPath 等功能。本项目中广泛运用的 Swift 语言特性包括："),
+    bodyPara("（1）类型安全与类型推断：Swift 的强类型系统能够在编译期捕获大量类型错误，同时通过类型推断减少冗余的类型声明，使代码简洁而安全。"),
+    bodyPara("（2）Optional 可选型：Swift 通过 Optional 类型显式处理值的缺失，配合 if-let、guard-let 等安全解包语法，有效避免了空指针异常。"),
+    bodyPara("（3）值类型与引用类型：Swift 中的 struct 和 enum 为值类型，class 为引用类型。本项目中的 NoteModel 使用 struct 定义，保证了数据在传递过程中的不可变性；而 ViewModel 和 Service 使用 class 定义，适合需要共享状态和生命周期管理的场景。"),
+    bodyPara("（4）Protocol Extension 协议扩展：Swift 的协议扩展允许为协议提供默认实现，是实现面向协议编程（POP）的核心机制。"),
+    bodyPara("（5）Closure 闭包与内存管理：闭包是 Swift 中的一等公民，广泛用于异步回调。本项目在所有闭包中使用 [weak self] 捕获列表，避免循环引用导致的内存泄漏。"),
+
+    heading2("2.3 架构模式：MVVM"),
+    bodyPara("MVVM（Model-View-ViewModel）是微软 WPF 团队于 2005 年提出的架构模式，其核心思想是在 View 和 Model 之间引入 ViewModel 中间层，负责将 Model 数据转换为 View 可直接展示的格式，并处理 View 的用户交互逻辑。与传统的 MVC 模式相比，MVVM 通过数据绑定机制实现了 View 与业务逻辑的解耦。"),
+    bodyPara("在 iOS 开发中，传统的 MVC 模式常常导致 ViewController 承载过多的职责——既要管理 UI 生命周期，又要处理业务逻辑和数据转换，形成所谓的 Massive ViewController 问题。MVVM 通过将业务逻辑抽离到 ViewModel 中，使 ViewController 仅专注于 UI 的展示和用户交互的传递，从而有效解决了这一问题。"),
+    bodyPara("本项目严格遵循 MVVM 架构的五层职责划分：View 层（ViewController + UIView）负责界面展示与用户交互；ViewModel 层负责业务逻辑、数据格式转换和线程调度；Model 层（NoteModel 值类型结构体）作为纯数据结构在 UI 层间传递；Service 层提供数据持久化、图片加载和偏好存取等基础设施服务；Data 层为 Core Data 框架下的 NSManagedObject 原始托管对象。各层之间通过定义良好的接口通信，上层不直接依赖下层的实现细节。"),
+
+    heading2("2.4 核心技术选型与理由"),
+    bodyPara("下表列出了项目主要技术选型及其候选方案的对比和选择理由："),
+    buildTechTable(),
+
+    heading2("2.5 项目目录结构与文件清单"),
+    bodyPara("项目采用按职责分层的目录结构，共包含 17 个 Swift 源文件，总计约 1,129 行代码。各目录和文件的组织方式如下："),
+    bodyParaNoIndent("App/ — 应用入口层，包含 AppDelegate.swift（41 行），负责应用启动、窗口创建和全局配置。"),
+    bodyParaNoIndent("Models/ — 数据模型层，包含 NoteModel.swift（37 行），定义了笔记的值类型表示和 Core Data 托管对象的映射方法。"),
+    bodyParaNoIndent("Services/ — 服务层，包含 CoreDataManager.swift（141 行）、ImageLoader.swift（43 行）和 UserDefaultsManager.swift（49 行），以单例模式提供核心服务。"),
+    bodyParaNoIndent("ViewModels/ — 视图模型层，包含 DashboardViewModel.swift（49 行）、NoteListViewModel.swift（74 行）、NoteEditViewModel.swift（111 行）和 SettingsViewModel.swift（91 行），每个 ViewModel 对应一个页面。"),
+    bodyParaNoIndent("Views/ — 视图层，按功能模块分为 Dashboard/、NoteList/、NoteEdit/、Settings/ 四个子目录，加上 MainTabBarController.swift（56 行），共 8 个视图文件（493 行）。"),
+  ];
+}
+
 function buildChapter1() {
   return [
     heading1("一、项目来源及意义"),
@@ -327,6 +398,10 @@ const doc = new Document({
     {
       properties: defaultPageConfig,
       children: [...buildChapter1()],
+    },
+    {
+      properties: defaultPageConfig,
+      children: [...buildChapter2()],
     },
   ],
 });
