@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 49;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		185B356B2FBAF9C90052D49D /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 185B356A2FBAF9C90052D49D /* Launch Screen.storyboard */; };
 		A100010100000000000001 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200010100000000000001 /* AppDelegate.swift */; };
 		A100010100000000000002 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200010100000000000002 /* CoreDataManager.swift */; };
 		A100010100000000000003 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A200010100000000000003 /* UserDefaultsManager.swift */; };
@@ -28,7 +29,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A300010100000000000001 /* SwiftNote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftNote.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		185B356A2FBAF9C90052D49D /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		A200010100000000000001 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A200010100000000000002 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		A200010100000000000003 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
@@ -49,7 +50,18 @@
 		A200010100000000000018 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A200010100000000000021 /* SwiftNote.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SwiftNote.xcdatamodel; sourceTree = "<group>"; };
 		A200010100000000000022 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A300010100000000000001 /* SwiftNote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftNote.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A600010100000000000002 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		A400010100000000000001 = {
@@ -58,14 +70,6 @@
 				A400010100000000000002 /* SwiftNote */,
 				A400010100000000000003 /* Products */,
 			);
-			sourceTree = "<group>";
-		};
-		A400010100000000000003 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				A300010100000000000001 /* SwiftNote.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		A400010100000000000002 /* SwiftNote */ = {
@@ -79,8 +83,17 @@
 				A200010100000000000018 /* Assets.xcassets */,
 				A200010100000000000020 /* SwiftNote.xcdatamodeld */,
 				A200010100000000000022 /* Info.plist */,
+				185B356A2FBAF9C90052D49D /* Launch Screen.storyboard */,
 			);
 			path = SwiftNote;
+			sourceTree = "<group>";
+		};
+		A400010100000000000003 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A300010100000000000001 /* SwiftNote.app */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		A400010100000000000010 /* App */ = {
@@ -225,6 +238,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				185B356B2FBAF9C90052D49D /* Launch Screen.storyboard in Resources */,
 				A100010100000000000018 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -257,30 +271,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXFrameworksBuildPhase section */
-		A600010100000000000002 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXFrameworksBuildPhase section */
-
-/* Begin XCVersionGroup section */
-		A200010100000000000020 /* SwiftNote.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				A200010100000000000021 /* SwiftNote.xcdatamodel */,
-			);
-			currentVersion = A200010100000000000021 /* SwiftNote.xcdatamodel */;
-			lastKnownFileType = wrapper.xcdatamodeld;
-			path = SwiftNote.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodeld;
-		};
-/* End XCVersionGroup section */
 
 /* Begin XCBuildConfiguration section */
 		A800010100000000000001 /* Debug */ = {
@@ -389,8 +379,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -452,6 +441,18 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCVersionGroup section */
+		A200010100000000000020 /* SwiftNote.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				A200010100000000000021 /* SwiftNote.xcdatamodel */,
+			);
+			currentVersion = A200010100000000000021 /* SwiftNote.xcdatamodel */;
+			path = SwiftNote.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodeld;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = A600010100000000000000 /* Project object */;
 }

@@ -9,7 +9,7 @@ class CoreDataManager {
 
     private init() {
         persistentContainer = NSPersistentContainer(name: "SwiftNote")
-        persistentContainer.loadPersistentStores { [weak self] storeDescription, error in
+         persistentContainer.loadPersistentStores { [weak self] storeDescription, error in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
