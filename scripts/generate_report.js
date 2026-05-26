@@ -117,6 +117,76 @@ function buildCover() {
   return children;
 }
 
+function buildScoringTable() {
+  const children = [];
+
+  children.push(new Paragraph({
+    alignment: AlignmentType.CENTER,
+    spacing: { after: 360 },
+    children: [new TextRun({ text: "项目评分情况一览表", font: FONT_HEADING, size: SIZE_H1, bold: true })],
+  }));
+
+  children.push(bodyParaNoIndent("班级：__________________    学号：__________________    姓名：__________________"));
+
+  children.push(emptyPara());
+
+  // 评分表数据
+  const headerRow = ["评分项目", "评分说明", "得分"];
+  const rows = [
+    headerRow,
+    ["1．项目选题", "项目的实用程度及意义", ""],
+    [
+      "2．项目实现",
+      "依照以下内容综合评分：\n① 项目功能设计及实现完整度\n② 控件（基础控件及高级控件）应用及数量\n③ 页面的导航跳转组织及页面间数据信息的传递\n④ 数据持久化技术使用\n⑤ 页面数量、页面布局及表现力",
+      "",
+    ],
+    ["3．项目文档", "项目文档规范程度", ""],
+    ["4．项目答辩", "项目答辩时自述及回答问题的情况", ""],
+  ];
+
+  const colWidths = [2000, 5006, 1300];
+
+  const tableRows = rows.map((row, ri) => {
+    const cells = row.map((text, ci) => {
+      const isHeader = ri === 0;
+      const textRun = new TextRun({
+        text,
+        font: FONT_BODY,
+        size: SIZE_BODY,
+        bold: isHeader,
+      });
+      return new TableCell({
+        borders: cellBorders,
+        width: { size: colWidths[ci], type: WidthType.DXA },
+        shading: isHeader ? { fill: "D5E8F0", type: ShadingType.CLEAR } : undefined,
+        margins: { top: 60, bottom: 60, left: 100, right: 100 },
+        verticalAlign: "center",
+        children: [new Paragraph({ spacing: { after: 0, line: 320 }, children: [textRun] })],
+      });
+    });
+    return new TableRow({ children: cells });
+  });
+
+  children.push(new Table({
+    width: { size: CONTENT_WIDTH, type: WidthType.DXA },
+    columnWidths: colWidths,
+    rows: tableRows,
+  }));
+
+  children.push(emptyPara());
+
+  // 问题记录等
+  children.push(bodyParaNoIndent("问题记录：___________________________________________________________________________"));
+  children.push(emptyPara());
+  children.push(bodyParaNoIndent("总计得分：__________________"));
+  children.push(emptyPara());
+  children.push(bodyParaNoIndent("总评：_______________________________________________________________________________"));
+  children.push(emptyPara());
+  children.push(bodyParaNoIndent("评价教师：__________________"));
+
+  return children;
+}
+
 // ---- 组装文档 ----
 const doc = new Document({
   styles: {
@@ -145,6 +215,15 @@ const doc = new Document({
         },
       },
       children: [...buildCover()],
+    },
+    {
+      properties: {
+        page: {
+          size: { width: PAGE_WIDTH, height: PAGE_HEIGHT },
+          margin: { top: MARGIN_TOP, bottom: MARGIN_BOTTOM, left: MARGIN_LEFT, right: MARGIN_RIGHT },
+        },
+      },
+      children: [...buildScoringTable()],
     },
   ],
 });
