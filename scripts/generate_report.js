@@ -323,6 +323,59 @@ function buildChapter2() {
   ];
 }
 
+function buildChapter3() {
+  return [
+    heading1("三、项目需求分析及设计"),
+
+    heading2("3.1 用户故事"),
+    bodyPara("为了明确项目需求，我们采用用户故事（User Story）的方式从用户视角描述功能需求。每条用户故事遵循标准格式："),
+    bodyParaNoIndent("US-01：作为普通用户，我希望快速创建笔记并选择分类，以便将不同类型的信息有序整理。"),
+    bodyParaNoIndent("US-02：作为普通用户，我希望按分类筛选和关键词搜索已有笔记，以便在海量笔记中快速定位所需内容。"),
+    bodyParaNoIndent("US-03：作为普通用户，我希望为笔记附加照片或图片，以便记录视觉化的信息。"),
+    bodyParaNoIndent("US-04：作为普通用户，我希望自定义应用主题颜色与字体大小，以便获得舒适的个性化阅读体验。"),
+    bodyParaNoIndent("US-05：作为普通用户，我希望在首页仪表盘看到笔记概览和统计信息，以便了解笔记整理的整体状况。"),
+
+    heading2("3.2 功能性需求详述"),
+    bodyPara("基于用户故事的引导，我们对系统的功能性需求进行了详细分解和编号，每条需求对应课程考核中的具体技术知识点："),
+    bodyParaNoIndent("FR-01 笔记创建：用户可以创建一条新笔记，设置标题、正文内容、所属分类（一般/工作/个人/想法）以及可选的图片附件。新建笔记时自动记录创建时间和更新时间。对应考核点：UITextField、UITextView 基础控件使用，Core Data 数据写入。"),
+    bodyParaNoIndent("FR-02 笔记编辑与删除：用户可以对已有笔记进行内容编辑和更新，更新时间将自动刷新。用户可以删除不再需要的笔记，删除前显示确认对话框。对应考核点：页面间数据传递（noteToLoad 属性注入），Core Data 更新与删除操作，UIAlertController 确认对话框。"),
+    bodyParaNoIndent("FR-03 笔记列表浏览与搜索：用户可以按更新时间降序浏览全部笔记，使用搜索栏对标题和内容进行关键词实时搜索，使用分段控件按分类筛选笔记。对应考核点：UITableView 列表展示，UISearchBar 搜索，UISegmentedControl 分类筛选，NSPredicate 查询。"),
+    bodyParaNoIndent("FR-04 仪表盘概览：用户在首页仪表盘可以看到最近笔记的卡片式网格展示，以及按分类统计的笔记数量概览。点击卡片可进入笔记编辑页面。对应考核点：UICollectionView 网格布局，自定义 UICollectionViewCell，分区头视图。"),
+    bodyParaNoIndent("FR-05 个性化设置：用户可以切换深色模式、调整正文字体大小（范围 12-24pt）、选择主题颜色（蓝/绿/橙三个选项）、设置默认笔记分类。所有设置即时生效并自动持久化。对应考核点：UISwitch、UISlider、UserDefaults 持久化，主题切换实现。"),
+    bodyParaNoIndent("FR-06 缓存管理：用户可以在设置页面一键清除应用图片缓存，释放存储空间。对应考核点：NSCache 缓存管理，UIAlertController 确认操作。"),
+
+    heading2("3.3 非功能性需求"),
+    bodyPara("除了功能性需求外，本项目还设定了以下非功能性需求，以确保应用的质量和用户体验："),
+    bodyParaNoIndent("NFR-01 离线运行：应用完全不依赖网络连接，所有数据存储在本地 Core Data 数据库中，确保用户在任何网络环境下均可正常使用。"),
+    bodyParaNoIndent("NFR-02 响应性能：所有 Core Data 写操作在后台上下文中执行，主线程不被阻塞，确保 UI 交互的流畅性和响应灵敏度。"),
+    bodyParaNoIndent("NFR-03 存储优化：笔记附带的图片经过尺寸限制（最大 1024×1024 像素）和 JPEG 压缩（质量系数 0.5）处理后存储，并使用 Core Data 的外部二进制数据存储选项将大文件存储在数据库文件外部。"),
+    bodyParaNoIndent("NFR-04 兼容性：应用支持 iOS 11.0 及以上版本，仅适用于 iPhone 设备，仅支持竖屏方向，简化了界面适配工作。"),
+    bodyParaNoIndent("NFR-05 可维护性：项目遵循 MVVM 架构分层，采用纯代码布局，不依赖任何第三方框架，代码结构清晰，便于后续维护和功能扩展。"),
+
+    heading2("3.4 系统总体架构设计"),
+    bodyPara("SwiftNote 采用分层架构设计，从用户界面到数据存储共分为五层，各层职责明确、单向依赖。表示层（View Layer）包含 ViewController 和 UIView 子类，负责界面渲染和用户交互事件接收。视图模型层（ViewModel Layer）接收来自 View 的用户操作，调用服务层接口执行业务逻辑，通过闭包回调将处理结果返回给 View。服务层（Service Layer）以单例模式提供 Core Data 数据操作、图片加载缓存和用户偏好存取等基础服务。数据模型层（Model Layer）定义了 NoteModel 值类型结构体和 fromManagedObject 映射方法，作为托管对象和 UI 层之间的数据传输载体。数据持久层（Data Layer）为 Core Data 框架的 NSPersistentContainer、NSManagedObjectContext 和底层 SQLite 存储。"),
+    bodyPara("各层之间的数据流遵循单向依赖原则：View 依赖 ViewModel 获取展示数据，ViewModel 依赖 Service 执行数据操作，Service 依赖 Core Data Stack 完成持久化。反向的通信通过闭包回调实现，确保了依赖关系的清晰和可测试性。"),
+
+    heading2("3.5 模块划分与页面导航设计"),
+    bodyPara("应用采用 UITabBarController 作为根视图控制器，下设四个功能标签页，每个标签页内嵌在独立的 UINavigationController 中，以实现页面间的层级导航。四个模块的职责如下："),
+    bodyParaNoIndent("（1）仪表盘模块（Dashboard）：应用首页，展示最近笔记卡片网格和分类统计信息。提供"+"快捷创建按钮，用户选择分类后直接进入笔记编辑页面。"),
+    bodyParaNoIndent("（2）笔记列表模块（NoteList）：展示全部笔记的列表视图，支持搜索和分类筛选，支持滑动删除。点击笔记行进入编辑页面。"),
+    bodyParaNoIndent("（3）笔记编辑模块（NoteEdit）：新建或编辑笔记的核心页面，包含标题、内容、图片和分类的完整表单。支持保存和删除操作。"),
+    bodyParaNoIndent("（4）设置模块（Settings）：提供外观个性化设置、默认分类设置和缓存管理功能。"),
+    bodyPara("页面间的数据传递采用属性注入（Property Injection）方式。跳转到 NoteEdit 编辑已有笔记时，源页面将 NoteModel 实例赋值给 NoteEditViewController 的 noteToLoad 属性；快速新建时则赋值 initialCategory 属性。页面返回时无需回传数据，因为保存操作已通过 ViewModel 直接写入数据库，列表页通过 viewWillAppear 重新加载数据即可获取最新状态。"),
+
+    heading2("3.6 数据模型设计"),
+    bodyPara("Core Data 持久层的 Note 实体包含六个属性：title（String，可选，默认空字符串）用于存储笔记标题；content（String，可选，默认空字符串）用于存储笔记正文内容；category（String，可选，默认空字符串）用于存储笔记分类，取值范围为一般/工作/个人/想法；createDate（Date，可选）记录笔记创建时间；updateDate（Date，可选）记录笔记最后更新时间，每次编辑后刷新；imageData（Binary Data，可选，启用 allowsExternalBinaryDataStorage）存储经过压缩处理的图片二进制数据。"),
+    bodyPara("为了将 Core Data 的 NSManagedObject 与 UI 层解耦，项目定义了 NoteModel 值类型结构体作为数据传输载体。NoteModel 通过 fromManagedObject(_:) 静态方法，使用 KVC（Key-Value Coding）从托管对象中提取属性值并构建结构体实例。所有 ViewModel 和 View 均通过 NoteModel 而非 NSManagedObject 交换笔记数据，避免了托管对象跨线程传递的线程安全问题，也使得 UI 层与 Core Data 框架完全解耦。"),
+
+    heading2("3.7 界面布局设计"),
+    bodyPara("仪表盘页面顶部为导航栏，标题为“SwiftNote”，右上角“+”按钮触发分类选择 ActionSheet。页面主体为 UICollectionView，采用垂直滚动流式布局，每行显示两列笔记卡片。每个卡片从上到下依次为缩略图区域（宽高比约 1:0.6）、标题标签（粗体 16pt、最多两行）、日期标签（系统字体 12pt、灰色）和分类标签（白色文字、圆角色彩背景）。分区头显示“最近笔记”标题和笔记总数。"),
+    bodyPara("笔记列表页面导航栏标题区域嵌入了五选项分段控件（全部/通用/工作/个人/创意），方便用户快速切换分类。UITableView 的表头固定了搜索栏，列表行采用横向布局：左侧 60×60 缩略图，右侧依次排列标题、日期和分类标签，行尾显示系统 disclosureIndicator 箭头。"),
+    bodyPara("笔记编辑页面采用 UIScrollView 包裹内容视图的布局方式，以容纳超出屏幕高度的多行文本内容。内容视图从上到下依次排列标题文本框、正文文本区、图片显示区（带圆角）、添加照片按钮和横向滚动的分类选择器。导航栏左侧放置取消和删除按钮，右侧放置保存按钮。"),
+    bodyPara("设置页面采用分组样式 UITableView，分为外观、笔记和关于三个分区。外观分区包含深色模式开关、字体大小滑块和主题色选择器；笔记分区包含默认分类选择器和清除缓存按钮；关于分区显示版本号和构建信息。"),
+  ];
+}
+
 function buildChapter1() {
   return [
     heading1("一、项目来源及意义"),
@@ -402,6 +455,10 @@ const doc = new Document({
     {
       properties: defaultPageConfig,
       children: [...buildChapter2()],
+    },
+    {
+      properties: defaultPageConfig,
+      children: [...buildChapter3()],
     },
   ],
 });
