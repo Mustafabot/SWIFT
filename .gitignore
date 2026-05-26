@@ -1,2 +1,7 @@
 .trae
 .claude
+CLAUDE.md
+node_modules/
+*.doc
+*.docx
+docs/
