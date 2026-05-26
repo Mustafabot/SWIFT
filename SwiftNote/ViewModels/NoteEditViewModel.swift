@@ -45,8 +45,8 @@ class NoteEditViewModel {
         }
 
         if isNew {
-            DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-                CoreDataManager.shared.createNote(title: title, content: content, category: category, imageData: imageData)
+            CoreDataManager.shared.performBackgroundTask { context in
+                CoreDataManager.shared.createNote(title: title, content: content, category: category, imageData: imageData, in: context)
                 DispatchQueue.main.async { [weak self] in
                     guard let strongSelf = self else { return }
                     strongSelf.isNew = false
@@ -56,14 +56,13 @@ class NoteEditViewModel {
             return true
         } else {
             guard let existingNote = note else { return false }
-            let context = CoreDataManager.shared.context
-            let request: NSFetchRequest<NSManagedObject> = NSFetchRequest(entityName: "Note")
-            request.predicate = NSPredicate(format: "title == %@ AND createDate == %@", existingNote.title, existingNote.createDate as NSDate)
-            do {
-                let results = try context.fetch(request)
-                if let object = results.first {
-                    DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-                        CoreDataManager.shared.updateNote(note: object, title: title, content: content, category: category, imageData: imageData)
+            CoreDataManager.shared.performBackgroundTask { context in
+                let request: NSFetchRequest<NSManagedObject> = NSFetchRequest(entityName: "Note")
+                request.predicate = NSPredicate(format: "title == %@ AND createDate == %@", existingNote.title, existingNote.createDate as NSDate)
+                do {
+                    let results = try context.fetch(request)
+                    if let object = results.first {
+                        CoreDataManager.shared.updateNote(note: object, title: title, content: content, category: category, imageData: imageData, in: context)
                         DispatchQueue.main.async { [weak self] in
                             guard let strongSelf = self else { return }
                             strongSelf.note?.title = title
@@ -74,38 +73,35 @@ class NoteEditViewModel {
                             strongSelf.onNoteSaved?()
                         }
                     }
-                    return true
+                } catch {
+                    // Handle error silently
                 }
-            } catch {
-                return false
             }
-            return false
+            return true
         }
     }
 
     @discardableResult
     func deleteNote() -> Bool {
         guard let existingNote = note else { return false }
-        let context = CoreDataManager.shared.context
-        let request: NSFetchRequest<NSManagedObject> = NSFetchRequest(entityName: "Note")
-        request.predicate = NSPredicate(format: "title == %@ AND createDate == %@", existingNote.title, existingNote.createDate as NSDate)
-        do {
-            let results = try context.fetch(request)
-            if let object = results.first {
-                DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-                    CoreDataManager.shared.deleteNote(note: object)
+        CoreDataManager.shared.performBackgroundTask { context in
+            let request: NSFetchRequest<NSManagedObject> = NSFetchRequest(entityName: "Note")
+            request.predicate = NSPredicate(format: "title == %@ AND createDate == %@", existingNote.title, existingNote.createDate as NSDate)
+            do {
+                let results = try context.fetch(request)
+                if let object = results.first {
+                    CoreDataManager.shared.deleteNote(note: object, in: context)
                     DispatchQueue.main.async { [weak self] in
                         guard let strongSelf = self else { return }
                         strongSelf.note = nil
                         strongSelf.onNoteDeleted?()
                     }
                 }
-                return true
+            } catch {
+                // Handle error silently
             }
-        } catch {
-            return false
         }
-        return false
+        return true
     }
 
     func loadNote(_ noteModel: NoteModel) {

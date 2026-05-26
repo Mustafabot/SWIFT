@@ -11,10 +11,9 @@ class NoteListViewModel {
     var onNotesUpdated: (() -> Void)?
 
     func loadNotes() {
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            guard let strongSelf = self else { return }
+        CoreDataManager.shared.performBackgroundTask { context in
             let sortDescriptor = NSSortDescriptor(key: "updateDate", ascending: false)
-            let objects = CoreDataManager.shared.fetchNotes(sortDescriptors: [sortDescriptor])
+            let objects = CoreDataManager.shared.fetchNotes(sortDescriptors: [sortDescriptor], in: context)
             let notes = objects.map { NoteModel.fromManagedObject($0) }
 
             DispatchQueue.main.async { [weak self] in
@@ -47,22 +46,21 @@ class NoteListViewModel {
     func deleteNote(at index: Int) {
         guard index >= 0 && index < filteredNotes.count else { return }
         let noteModel = filteredNotes[index]
-        let context = CoreDataManager.shared.context
-        let request: NSFetchRequest<NSManagedObject> = NSFetchRequest(entityName: "Note")
-        request.predicate = NSPredicate(format: "title == %@ AND createDate == %@", noteModel.title, noteModel.createDate as NSDate)
-        do {
-            let results = try context.fetch(request)
-            if let object = results.first {
-                DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-                    CoreDataManager.shared.deleteNote(note: object)
+        CoreDataManager.shared.performBackgroundTask { context in
+            let request: NSFetchRequest<NSManagedObject> = NSFetchRequest(entityName: "Note")
+            request.predicate = NSPredicate(format: "title == %@ AND createDate == %@", noteModel.title, noteModel.createDate as NSDate)
+            do {
+                let results = try context.fetch(request)
+                if let object = results.first {
+                    CoreDataManager.shared.deleteNote(note: object, in: context)
                     DispatchQueue.main.async { [weak self] in
                         guard let innerSelf = self else { return }
                         innerSelf.loadNotes()
                     }
                 }
+            } catch {
+                return
             }
-        } catch {
-            return
         }
     }
 

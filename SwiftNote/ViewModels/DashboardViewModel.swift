@@ -10,10 +10,9 @@ class DashboardViewModel {
     var onDataLoaded: (() -> Void)?
 
     func loadDashboardData() {
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            guard let strongSelf = self else { return }
+        CoreDataManager.shared.performBackgroundTask { context in
             let sortDescriptor = NSSortDescriptor(key: "updateDate", ascending: false)
-            let allObjects = CoreDataManager.shared.fetchNotes(sortDescriptors: [sortDescriptor])
+            let allObjects = CoreDataManager.shared.fetchNotes(sortDescriptors: [sortDescriptor], in: context)
             let allNotes = allObjects.map { NoteModel.fromManagedObject($0) }
 
             var recent: [NoteModel] = []
