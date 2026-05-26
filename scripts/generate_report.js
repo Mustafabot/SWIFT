@@ -404,6 +404,31 @@ function buildChapter1() {
   ];
 }
 
+function buildChapter4() {
+  return [
+    heading1("四、项目实现"),
+
+    heading2("4.1 应用入口与全局配置"),
+    bodyPara("应用通过 @UIApplicationMain 修饰符标记 AppDelegate 作为程序入口。在 application(_:didFinishLaunchingWithOptions:) 方法中，首先创建 UIWindow 实例并设置其 frame 为 UIScreen.main.bounds；然后实例化 MainTabBarController 并设为 window.rootViewController；接着从 UserDefaultsManager 读取用户保存的主题色索引，将对应颜色应用于 UITabBar 和 UINavigationBar 的 tintColor；最后调用 window.makeKeyAndVisible() 显示窗口。"),
+    bodyPara("MainTabBarController 继承自 UITabBarController，在 viewDidLoad 中调用 setupTabs() 和 applyTheme()。setupTabs() 创建四个 UINavigationController 封装的功能页面，分别设置标题、系统图标和 tag 值：仪表盘（Home，图标 .favorites，tag 0）、笔记列表（Notes，图标 .recents，tag 1）、新建笔记（New，tag 2）、设置（Settings，图标 .more，tag 3）。applyTheme() 从 UserDefaultsManager 读取 darkModeEnabled 和 themeColorIndex，统一调整所有导航栏和标签栏的外观样式。"),
+    bodyPara("Info.plist 中声明了两项隐私权限说明：NSCameraUsageDescription（SwiftNote 需要访问您的相机才能为笔记拍照）和 NSPhotoLibraryUsageDescription（SwiftNote 需要访问您的照片库才能为笔记附加图像）。此外还配置了最低系统版本（iOS 11.0）、仅支持竖屏方向和仅限 iPhone 设备等约束。"),
+
+    heading2("4.2 仪表盘模块"),
+    bodyPara("仪表盘模块是用户打开应用后首先看到的页面，承担着笔记概览和快捷入口的双重职责。页面主要由 UICollectionView 构成，采用 UICollectionViewFlowLayout 流式布局，每行两列，item 尺寸根据屏幕宽度动态计算（减去 sectionInset 和 itemSpacing 后平分宽度，高度为宽度的 1.2 倍）。collectionView 注册了 DashboardCell（用于笔记卡片）和 DashboardHeaderView（用于分区头视图）。"),
+    bodyPara("DashboardCell 的布局从上到下依次为：thumbnailImageView（顶部图片区域，contentMode 为 scaleAspectFill，宽高比约 1:0.6）、titleLabel（粗体 16pt，最多显示两行）、dateLabel（系统字体 12pt，灰色）和 categoryLabel（白色文字 11pt，4pt 圆角，背景色按分类区分）。分类颜色映射规则为：工作对应 RGB(0.2, 0.6, 1.0) 蓝色，个人对应 RGB(0.4, 0.8, 0.4) 绿色，想法对应 RGB(1.0, 0.6, 0.2) 橙色，默认对应 RGB(0.5, 0.5, 0.5) 灰色。prepareForReuse() 方法重置所有文本和图像，防止复用时的数据残留。"),
+    bodyPara("导航栏右上角\"+\"按钮触发 UIAlertController 的 ActionSheet 样式菜单，提供四个选项：新建笔记（分类为一般）、新建工作笔记（分类为工作）、新建个人笔记（分类为个人）和取消。用户选择后，创建 NoteEditViewController 并设置其 initialCategory 属性，然后 push 到导航栈中。"),
+    bodyPara("下拉刷新通过 UIRefreshControl 实现，addTarget 绑定 handleRefresh 方法，调用 viewModel.loadDashboardData() 重新从 Core Data 加载数据。DashboardViewModel 在后台上下文中获取全部笔记，按 updateDate 降序排列，取前 10 条作为 recentNotes，同时计算 categoryCounts 字典统计各类别笔记数量，最后通过 DispatchQueue.main.async 回到主线程，调用 onDataLoaded 回调通知 ViewController 刷新 collectionView。"),
+
+    heading2("4.3 笔记列表模块"),
+    bodyPara("笔记列表模块以 UITableView 为核心展示全部笔记，支持搜索过滤、分类筛选和滑动删除三项操作。TableView 注册 NoteTableViewCell，设置 rowHeight 为 UITableViewAutomaticDimension、estimatedRowHeight 为 80 以实现自适应行高。"),
+    bodyPara("搜索功能通过 UISearchBar 实现，搜索栏作为 tableView.tableHeaderView 固定在列表顶部。用户在搜索栏输入文字时，searchBar(_:textDidChange:) 代理方法将搜索文本传递给 viewModel.searchText，调用 viewModel.filterNotes() 触发实时过滤。搜索取消时清空搜索文本并恢复完整列表。"),
+    bodyPara("分类筛选通过 UISegmentedControl 实现，控件嵌入在 navigationItem.titleView 位置，包含五个选项：全部、通用、工作、个人、创意。用户切换选项时，segmentChanged() 方法根据 selectedSegmentIndex 将 viewModel.selectedCategory 设置为 nil（全部）或对应的英文类别字符串，随后调用 filterNotes() 执行过滤。"),
+    bodyPara("NoteListViewModel 的 filterNotes() 方法实现了双条件过滤链：首先判断 selectedCategory——若不为 nil，则使用 filter { $0.category == selectedCategory } 过滤；然后判断 searchText——若不为空字符串，则使用 filter { $0.title.localizedCaseInsensitiveContains(searchText) || $0.content.localizedCaseInsensitiveContains(searchText) } 在标题和内容中同时搜索。过滤结果赋值给 filteredNotes 数组，触发 onNotesUpdated 回调刷新列表。"),
+    bodyPara("NoteTableViewCell 采用横向布局：左侧为 60×60 固定尺寸的 thumbnailImageView（scaleAspectFill + 4pt 圆角），右侧依次垂直排列 titleLabel（粗体 16pt）、dateLabel（系统字体 12pt，灰色）和 categoryLabel（样式与 DashboardCell 一致）。行尾显示系统 disclosureIndicator 箭头，指示可点击进入详情。"),
+    bodyPara("滑动删除通过 UITableViewDelegate 的 tableView(_:commit:forRowAt:) 方法实现。当 editingStyle 为 .delete 时，调用 viewModel.deleteNote(at: index)。deleteNote 方法首先从 filteredNotes 获取待删除笔记的 title 和 createDate，在后台上下文中使用谓词查询对应的 NSManagedObject，调用 CoreDataManager.shared.deleteNote 执行删除，然后重新加载笔记列表以刷新 UI。"),
+  ];
+}
+
 // ---- 组装文档 ----
 const doc = new Document({
   styles: {
@@ -459,6 +484,10 @@ const doc = new Document({
     {
       properties: defaultPageConfig,
       children: [...buildChapter3()],
+    },
+    {
+      properties: defaultPageConfig,
+      children: [...buildChapter4()],
     },
   ],
 });
