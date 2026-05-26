@@ -26,6 +26,35 @@ const MARGIN_LEFT = 1800;    // 3.18cm ≈ 1.25 inch
 const MARGIN_RIGHT = 1800;
 const CONTENT_WIDTH = PAGE_WIDTH - MARGIN_LEFT - MARGIN_RIGHT; // 8306 DXA
 
+// 默认页脚（正文页使用）
+const defaultFooter = new Footer({
+  children: [new Paragraph({
+    alignment: AlignmentType.CENTER,
+    children: [
+      new TextRun({ text: "— ", size: SIZE_SMALL }),
+      new TextRun({ children: [PageNumber.CURRENT], size: SIZE_SMALL }),
+      new TextRun({ text: " —", size: SIZE_SMALL }),
+    ],
+  })],
+});
+
+// 无页脚的页面配置（封面、评分表）
+const noFooterPageConfig = {
+  page: {
+    size: { width: PAGE_WIDTH, height: PAGE_HEIGHT },
+    margin: { top: MARGIN_TOP, bottom: MARGIN_BOTTOM, left: MARGIN_LEFT, right: MARGIN_RIGHT },
+  },
+};
+
+// 有页脚的页面配置（目录、正文、附录）
+const defaultPageConfig = {
+  page: {
+    size: { width: PAGE_WIDTH, height: PAGE_HEIGHT },
+    margin: { top: MARGIN_TOP, bottom: MARGIN_BOTTOM, left: MARGIN_LEFT, right: MARGIN_RIGHT },
+  },
+  footers: { default: defaultFooter },
+};
+
 // 表格通用边框
 const thinBorder = { style: BorderStyle.SINGLE, size: 1, color: "000000" };
 const cellBorders = { top: thinBorder, bottom: thinBorder, left: thinBorder, right: thinBorder };
@@ -208,22 +237,28 @@ const doc = new Document({
   },
   sections: [
     {
-      properties: {
-        page: {
-          size: { width: PAGE_WIDTH, height: PAGE_HEIGHT },
-          margin: { top: MARGIN_TOP, bottom: MARGIN_BOTTOM, left: MARGIN_LEFT, right: MARGIN_RIGHT },
-        },
-      },
+      properties: noFooterPageConfig,
       children: [...buildCover()],
     },
     {
-      properties: {
-        page: {
-          size: { width: PAGE_WIDTH, height: PAGE_HEIGHT },
-          margin: { top: MARGIN_TOP, bottom: MARGIN_BOTTOM, left: MARGIN_LEFT, right: MARGIN_RIGHT },
-        },
-      },
+      properties: noFooterPageConfig,
       children: [...buildScoringTable()],
+    },
+    {
+      properties: defaultPageConfig,
+      children: [
+        new Paragraph({
+          alignment: AlignmentType.CENTER,
+          spacing: { after: 360 },
+          children: [new TextRun({ text: "目    录", font: FONT_HEADING, size: SIZE_H1, bold: true })],
+        }),
+        new Paragraph({
+          spacing: { after: 120 },
+          children: [new TextRun({ text: "（目录需按小节生成）", font: FONT_BODY, size: SIZE_SMALL, italics: true })],
+        }),
+        emptyPara(),
+        new TableOfContents("目录", { hyperlink: true, headingStyleRange: "1-2" }),
+      ],
     },
   ],
 });
